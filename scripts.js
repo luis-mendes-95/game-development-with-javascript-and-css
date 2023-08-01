@@ -3,37 +3,49 @@ function checkCollision(projectile, enemy) {
   var projectileRect = projectile.getBoundingClientRect();
   var enemyRect = enemy.getBoundingClientRect();
 
-  if (
-    projectileRect.left < enemyRect.right &&
-    projectileRect.right > enemyRect.left &&
-    projectileRect.top < enemyRect.bottom &&
-    projectileRect.bottom > enemyRect.top
-  ) {
-    // Colisão detectada!
-    removeProjectile(projectile);
+  // Check if the enemy has the 'collision' class
+  if (!enemy.classList.contains("collision")) {
+    if (
+      projectileRect.left < enemyRect.right &&
+      projectileRect.right > enemyRect.left &&
+      projectileRect.top < enemyRect.bottom &&
+      projectileRect.bottom > enemyRect.top
+    ) {
+      // Collision detected!
+      removeProjectile(projectile);
 
-    // Substituir imagem do inimigo
-    enemy.src = "explosion.gif";
-    enemy.classList.add("collision");
+      // Increment counter
+      var counter = document.querySelector(".counter");
+      counter.textContent = parseInt(counter.textContent) + 1;
 
-    // Reproduzir som de explosão
-    var audio = document.getElementById("explosion-audio");
-    audio.currentTime = 0;
-    audio.play();
+      // Update enemy position
+      enemy.style.top = enemy.offsetTop + "px";
+      enemy.style.left = enemy.offsetLeft + "px";
 
-    setTimeout(function () {
-      enemy.parentNode.removeChild(enemy);
-      spawnEnemy();
-    }, 1500);
+      // Replace enemy image
+      enemy.src = "explosion.gif";
+      enemy.classList.add("collision");
+
+      // Play explosion sound
+      var audio = document.getElementById("explosion-audio");
+      audio.currentTime = 0;
+      audio.play();
+
+      setTimeout(function () {
+        enemy.parentNode.removeChild(enemy);
+        spawnEnemy();
+      }, 1500);
+    }
   }
 }
 
-function spawnEnemy() {
-  var enemy = document.createElement('img');
-  enemy.src = 'enemy.gif';
-  enemy.classList.add('enemy');
 
-  var background = document.querySelector('.background');
+function spawnEnemy() {
+  var enemy = document.createElement("img");
+  enemy.src = "enemy.gif";
+  enemy.classList.add("enemy");
+
+  var background = document.querySelector(".background");
   background.appendChild(enemy);
 }
 
@@ -68,6 +80,6 @@ function removeProjectile(projectile) {
   projectile.parentNode.removeChild(projectile);
 }
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener("DOMContentLoaded", function () {
   spawnEnemy();
 });

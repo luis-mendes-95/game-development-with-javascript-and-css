@@ -4,6 +4,16 @@ body {
   margin: 0;
 }
 
+.counter {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background-color: black;
+  color: white;
+}
+
+
 .background {
   position: relative;
   width: 100%;
@@ -13,6 +23,7 @@ body {
   background-size: 105%;
   background-position: bottom;
   cursor: pointer;
+  user-select: none;
 }
 
 .projectile {
@@ -30,8 +41,13 @@ body {
   transform: translate(50%, -50%) scaleX(-1);
   height: 25%;
   left: 0%;
-  animation: slideEnemy 0.8s infinite alternate ease-in-out;
 }
+
+.enemy {
+  animation: slideEnemy 0.8s infinite alternate ease-in-out,
+             slideEnemyHorizontal 10s linear infinite;
+}
+
 
 .enemy.collision {
   animation: none;
@@ -54,3 +70,13 @@ body {
     top: 85%;
   }
 }
+
+@keyframes slideEnemyHorizontal {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: 75%;
+  }
+}
+
